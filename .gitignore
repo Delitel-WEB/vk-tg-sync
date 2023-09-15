@@ -1,4 +1,7 @@
 __pycache__
 env
 
+.vscode
+.idea
+
 settings.sh
