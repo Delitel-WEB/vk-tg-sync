@@ -1,0 +1,4 @@
+vkbottle==4.3.12
+aiogram==2.25.1
+SQLAlchemy==2.0.20
+alembic==1.12.0
