@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, BigInteger
 
 
 BASE = declarative_base()
@@ -15,5 +15,5 @@ class Conversations(BASE):
     __tablename__ = "conversations"
 
     id = Column(Integer, primary_key=True)
-    vk_id = Column(Integer)
-    tg_id = Column(Integer)
+    vk_id = Column(BigInteger)
+    tg_id = Column(BigInteger)
