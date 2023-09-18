@@ -1,12 +1,25 @@
 [tool.black]
-line-length = 120
-skip-string-normalization=false
+line-length = 88
+skip-string-normalization=true
+target-version = ['py37']
+include = '\.pyi?$'
 exclude = '''
-   (
+(
   /(
-    |  alembic
-    |  env
-    |  venv
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \.env
+    | _build
+    | buck-out
+    | build
+    | dist
+    | env
+    | venv
+    | alembic
   )/
 )
 '''
