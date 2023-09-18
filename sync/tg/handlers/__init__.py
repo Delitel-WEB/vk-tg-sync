@@ -1,2 +1,2 @@
-from .import bind_chats
-from .import id
+from . import bind_chats
+from . import id

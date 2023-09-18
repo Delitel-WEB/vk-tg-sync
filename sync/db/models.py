@@ -5,11 +5,10 @@ from sqlalchemy import Column, Integer, BigInteger
 BASE = declarative_base()
 
 
-
 class Conversations(BASE):
     """
     Связка беседы ВК с группой Телеграма или
-    Свзяка личной беседы ВК с группой Телеграма 
+    Свзяка личной беседы ВК с группой Телеграма
     """
 
     __tablename__ = "conversations"

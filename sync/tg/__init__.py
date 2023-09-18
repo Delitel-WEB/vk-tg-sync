@@ -1,6 +1,6 @@
 from .core import dp
 from aiogram import executor
-from .import handlers
+from . import handlers
 
 
 def start_tg():
