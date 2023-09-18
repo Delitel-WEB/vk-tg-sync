@@ -6,14 +6,8 @@ def select_chat_type_kb():
 
     keyboard = InlineKeyboardMarkup()
     keyboard.add(
-        InlineKeyboardButton(
-            text="📬 Личный Чат",
-            callback_data="direct_message"
-        ),
-        InlineKeyboardButton(
-            text="👥 Группа",
-            callback_data="group"
-        )
+        InlineKeyboardButton(text="📬 Личный Чат", callback_data="direct_message"),
+        InlineKeyboardButton(text="👥 Группа", callback_data="group"),
     )
 
     return keyboard

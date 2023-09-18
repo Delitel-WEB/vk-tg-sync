@@ -6,14 +6,8 @@ def yes_or_no_kb():
 
     keyboard = InlineKeyboardMarkup()
     keyboard.add(
-        InlineKeyboardButton(
-            text="✅ Да",
-            callback_data="yes"
-        ),
-        InlineKeyboardButton(
-            text="❌ Нет",
-            callback_data="no"
-        )
+        InlineKeyboardButton(text="✅ Да", callback_data="yes"),
+        InlineKeyboardButton(text="❌ Нет", callback_data="no"),
     )
-    
+
     return keyboard
