@@ -1,6 +1,7 @@
 import aiohttp
 from io import BytesIO
 
+
 async def get_photo_from_url(photo_url):
     try:
         async with aiohttp.ClientSession() as session:
