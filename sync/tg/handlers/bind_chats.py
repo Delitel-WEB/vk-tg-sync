@@ -7,7 +7,7 @@ from ..keyboard import select_chat_type_kb, yes_or_no_kb
 from aiogram.utils.exceptions import ChatNotFound
 from ...db import Sessions
 from ...db.models import Conversations
-from sqlalchemy import select
+from sqlalchemy import select, or_
 
 
 @dp.message_handler(commands=["bind_chat"], state="*")
@@ -137,7 +137,10 @@ async def get_tg_id(message: Message, state: FSMContext):
                     data = await state.get_data()
                     chat_exists = await session.scalar(
                         select(Conversations).where(
-                            Conversations.vk_id == data["vk_chat_id"]
+                            or_(
+                                Conversations.vk_id == data["vk_chat_id"],
+                                Conversations.tg_id == message.text
+                            )
                         )
                     )
                     if not chat_exists:
@@ -149,6 +152,7 @@ async def get_tg_id(message: Message, state: FSMContext):
                         await session.commit()
 
                         await message.answer("Отлично!\n" "Чаты успешно связаны!")
+                        await state.finish()
                     else:
                         await message.answer("Чат уже к чему-то подключен!")
 
