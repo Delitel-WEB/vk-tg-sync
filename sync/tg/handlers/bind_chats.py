@@ -7,7 +7,8 @@ from ..keyboard import select_chat_type_kb, yes_or_no_kb
 from aiogram.utils.exceptions import ChatNotFound
 from ...db import Sessions
 from ...db.models import Conversations
-from sqlalchemy import select
+from sqlalchemy import select, or_
+from ..utils import update_chat_info
 
 
 @dp.message_handler(commands=["bind_chat"], state="*")
@@ -49,7 +50,7 @@ async def get_vk_id(message: Message, state: FSMContext):
         if data["chat_type"] == "DM":
             chat = await vk.api.users.get(message.text)
             if chat:
-                data["vk_chat_id"] = 2000000000 + int(message.text)
+                data["vk_chat_id"] = message.text
                 await state.set_data(data)
 
                 await BindChats.verify_choice_vk.set()
@@ -137,7 +138,10 @@ async def get_tg_id(message: Message, state: FSMContext):
                     data = await state.get_data()
                     chat_exists = await session.scalar(
                         select(Conversations).where(
-                            Conversations.vk_id == data["vk_chat_id"]
+                            or_(
+                                Conversations.vk_id == data["vk_chat_id"],
+                                Conversations.tg_id == message.text,
+                            )
                         )
                     )
                     if not chat_exists:
@@ -149,6 +153,27 @@ async def get_tg_id(message: Message, state: FSMContext):
                         await session.commit()
 
                         await message.answer("Отлично!\n" "Чаты успешно связаны!")
+                        await state.finish()
+
+                        if data["chat_type"] == "GR":
+                            chat = await vk.api.messages.get_conversations_by_id(
+                                data["vk_chat_id"]
+                            )
+                            await update_chat_info(
+                                message.text,
+                                chat.items[0].chat_settings.title,
+                                preview=chat.items[0].chat_settings.photo.photo_200
+                                if chat.items[0].chat_settings.photo
+                                else None,
+                            )
+                        else:
+                            chat = await vk.api.users.get(
+                                data["vk_chat_id"], fields=["photo_max_orig"]
+                            )
+                            full_name = f"{chat[0].first_name} {chat[0].last_name}"
+                            await update_chat_info(
+                                message.text, full_name, preview=chat[0].photo_max_orig
+                            )
                     else:
                         await message.answer("Чат уже к чему-то подключен!")
 
