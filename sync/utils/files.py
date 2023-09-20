@@ -2,10 +2,10 @@ import aiohttp
 from io import BytesIO
 
 
-async def get_photo_from_url(photo_url):
+async def get_file_from_url(file_url):
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get(photo_url) as response:
+            async with session.get(file_url) as response:
                 if response.status == 200:
                     photo_bytes = await response.read()
                     return BytesIO(photo_bytes)
