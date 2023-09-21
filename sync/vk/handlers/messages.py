@@ -18,7 +18,7 @@ async def on_message(message: Message):
             await tg.send_message(
                 bundle.tg_id,
                 f"<a href='{create_vk_link(message.from_id)}'>{user_info[0].first_name} {user_info[0].last_name}</a>\n"
-                + "_" * 10
+                + "‾" * 10
                 + f"\n{message.text}",
                 parse_mode="html",
             )

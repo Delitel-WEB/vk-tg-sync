@@ -36,7 +36,7 @@ async def on_photo(message: Message):
             user_info = await bot.api.users.get(message.from_id)
             text = f"<a href='{create_vk_link(message.from_id)}'>{user_info[0].first_name} {user_info[0].last_name}</a>\n"
             if message.text:
-                text += "_" * 10
+                text += "‾" * 10
                 text += f"\n{message.text}"
 
             photos = []
