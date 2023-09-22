@@ -21,4 +21,5 @@ async def on_message(message: Message):
                 + "‾" * 10
                 + f"\n{message.text}",
                 parse_mode="html",
+                disable_web_page_preview=True,
             )
