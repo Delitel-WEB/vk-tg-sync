@@ -40,4 +40,5 @@ async def on_stickers(message: Message):
             await sticker_message.reply(
                 f"<a href='{create_vk_link(message.from_id)}'>{user_info[0].first_name} {user_info[0].last_name}</a>\n",
                 parse_mode="html",
+                disable_web_page_preview=True,
             )
