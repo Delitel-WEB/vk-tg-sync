@@ -1,10 +1,7 @@
 from ..core import bot
 from vkbottle.user import Message
-from ...db import Sessions
-from ...db.models import Conversations
-from sqlalchemy import select
 from ...tg.core import bot as tg
-from ..utils import create_vk_link
+from ..utils import create_vk_link, check_bundle
 from ...utils import get_file_from_url
 from vkbottle.dispatch.rules import ABCRule
 from aiogram.types import InputMediaVideo
@@ -27,31 +24,27 @@ class VideoRule(ABCRule[Message]):
 
 
 @bot.on.message(VideoRule())
-async def on_video(message: Message):
-    async with Sessions() as session:
-        bundle = await session.scalar(
-            select(Conversations).where(Conversations.vk_id == message.peer_id)
-        )
-        if bundle:
-            user_info = await bot.api.users.get(message.from_id)
-            text = f"<a href='{create_vk_link(message.from_id)}'>{user_info[0].first_name} {user_info[0].last_name}</a>\n"
-            if message.text:
-                text += "‾" * 10
-                text += f"\n{message.text}"
+@check_bundle
+async def on_video(message: Message, bundle):
+    user_info = await bot.api.users.get(message.from_id)
+    text = f"<a href='{create_vk_link(message.from_id)}'>{user_info[0].first_name} {user_info[0].last_name}</a>\n"
+    if message.text:
+        text += "‾" * 10
+        text += f"\n{message.text}"
 
-        videos = []
-        for index, attachment in enumerate(message.attachments):
-            if attachment and attachment.video:
-                videos.append(
-                    InputMediaVideo(
-                        await get_file_from_url(
-                            await get_best_quality_video(attachment.video.files)
-                        ),
-                        parse_mode="html",
-                        caption=text if index == 0 else None,
-                    )
+    videos = []
+    for index, attachment in enumerate(message.attachments):
+        if attachment and attachment.video:
+            videos.append(
+                InputMediaVideo(
+                    await get_file_from_url(
+                        await get_best_quality_video(attachment.video.files)
+                    ),
+                    parse_mode="html",
+                    caption=text if index == 0 else None,
                 )
-        await tg.send_media_group(bundle.tg_id, videos)
+            )
+    await tg.send_media_group(bundle.tg_id, videos)
 
 
 async def get_best_quality_video(files):
