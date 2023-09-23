@@ -13,6 +13,6 @@ def check_bundle(func):
                 select(Conversations).where(Conversations.vk_id == message.peer_id)
             )
             if bundle:
-                await func(message, bundle, *args)
+                await func(message=message, bundle=bundle, *args)
 
     return wrapper
