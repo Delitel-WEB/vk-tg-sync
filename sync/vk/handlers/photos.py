@@ -17,10 +17,8 @@ class PhotoRule(ABCRule[Message]):
         if event.attachments:
             if event.attachments[0].photo:
                 return True
-            else:
-                return False
-        else:
-            return False
+
+        return False
 
 
 @bot.on.message(PhotoRule())

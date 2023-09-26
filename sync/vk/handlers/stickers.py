@@ -16,10 +16,8 @@ class StrickersRule(ABCRule[Message]):
         if event.attachments:
             if event.attachments[0].sticker:
                 return True
-            else:
-                return False
-        else:
-            return False
+
+        return False
 
 
 @bot.on.message(StrickersRule())
