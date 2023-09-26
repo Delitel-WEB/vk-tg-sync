@@ -1,7 +1,7 @@
 from ..core import bot
 from vkbottle.user import Message
 from ...tg.core import bot as tg
-from ..utils import create_vk_link, check_bundle
+from ..utils import create_vk_link, check_bundle, get_best_quality_video
 from ...utils import get_file_from_url
 from vkbottle.dispatch.rules import ABCRule
 from aiogram.types import InputMediaVideo
@@ -43,22 +43,3 @@ async def on_video(message: Message, bundle):
                 )
             )
     await tg.send_media_group(bundle.tg_id, videos)
-
-
-async def get_best_quality_video(files):
-    qualities = [
-        'mp4_2160',  # 4K
-        'mp4_1440',  # 1440p
-        'mp4_1080',  # 1080p
-        'mp4_720',  # 720p
-        'mp4_480',  # 480p
-        'mp4_360',  # 360p
-        'mp4_240',  # 240p
-        'mp4_144',  # 144p
-    ]
-
-    for quality in qualities:
-        if getattr(files, quality) is not None:
-            return getattr(files, quality)
-
-    return None
