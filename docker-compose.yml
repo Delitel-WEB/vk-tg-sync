@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  vk-tg-sync:
+    image: delitel/vk-tg-sync:latest
+    container_name: vk-tg-sync
+    environment:
+      - DB_PASS=
+      - DB_IP=db
+      - DB_NAME=vk_tg_sync
+      - TG_BOT_TOKEN=
+      - VK_BOT_TOKEN=
+    depends_on:
+      - db
+  
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: vk_tg_sync
+      MYSQL_ROOT_PASSWORD: 
+    volumes:
+      - "./db_data:/var/lib/mysql"
+
+    
