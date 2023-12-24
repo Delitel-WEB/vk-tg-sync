@@ -35,26 +35,23 @@
 1. Создайте файл `settings.sh` для Linux.
 
    ```shell
-   export tgBotToken="ВАШ_ТОКЕН_ТЕЛЕГРАМ_БОТА"
-   export vkBotToken="ВАШ_ТОКЕН_ПОЛЬЗОВАТЕЛЬСКОГО_АККАУНТА"
-   export dbPassword="ПАРОЛЬ_К_БД_MYSQL"
+   export TG_BOT_TOKEN="ВАШ_ТОКЕН_ТЕЛЕГРАМ_БОТА"
+   export VK_BOT_TOKEN="ВАШ_ТОКЕН_ПОЛЬЗОВАТЕЛЬСКОГО_АККАУНТА"
+   export DB_PASS="ПАРОЛЬ_К_БД_MYSQL"
+   export DB_IP="IP_БАЗЫ_ДАННЫХ"
+   export DB_NAME="НАЗВАНИЕ БД"
    ```
 
    Токен ВК можно получить [здесь](https://vkhost.github.io/). У токена должно быть разрешение к сообщениям!
 
-2. В [alembic.ini](alembic.ini#L63) введите свои данные от бд mysql, драйвером должен быть именно pymysql
 
-   ```ini
-   sqlalchemy.url = mysql+pymysql://user:pass@localhost/vk_to_tg
-   ```
-
-3. Создайте таблицы в базе данных:
+2. Создайте таблицы в базе данных:
 
    ```shell
    alembic upgrade head
    ```
 
-   ⚠️ Перед выполнением этой команды убедитесь, что у вас установлена база данных MySQL и создана пустая таблица `vk_to_tg`.
+   ⚠️ Перед выполнением этой команды убедитесь, что у вас установлена база данных MySQL и создана указанная таблица `DB_NAME`.
 
 ## ▶️ Запуск бота
 
