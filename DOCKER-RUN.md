@@ -40,5 +40,5 @@ docker exec -it <ТУТ_ID_Контейнера> bash
 
 И применяем миграции для БД командой:
 ```shell
-alembic upgade head
+alembic upgrade head
 ```
